@@ -37,7 +37,7 @@
   },
   "scripts": {
     "start": "set \"GENERATE_SOURCEMAP=false\" && craco start",
-    "build": "craco build",
+    "build": "set \"GENERATE_SOURCEMAP=false\" && craco build",
     "test": "craco test",
     "eject": "craco eject"
   },
