@@ -1,0 +1,87 @@
+@font-face {
+  font-family: 'Watson';
+  src: local('Watson'), url("./assets/font/Watson.ttf") format('ttf');
+}
+
+body,
+pre {
+  font-family: "Watson";
+}
+
+.main {
+  text-align: center;
+  background-image: url("./assets/background.png");
+  width: 100%;
+  height: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  font-family: "Watson";
+}
+
+.header,
+.subhead {
+  font-family: "Watson";
+  text-align: center;
+  font-weight: normal;
+  margin-bottom: 0;
+}
+
+.subhead {
+  font-size: 0.9em;
+}
+
+.subhead a {
+  color: slateblue;
+  text-decoration: none;
+}
+
+sl-divider {
+  margin-bottom: 0;
+}
+
+.sidebar {
+  font-family: Arial, Helvetica, sans-serif;
+  width: 20%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  overflow-x: hidden;
+  border-right: 1px solid #ccc;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-main {
+  display: flex;
+  flex-direction: column;
+  overflow: scroll;
+  flex-grow: 1;
+}
+
+.connection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.console {
+  width: 80%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  right: 0;
+  overflow-x: hidden;
+  z-index: 0;
+}
+
+.container {
+  width: 96%;
+  max-width: 1400px;
+}
+
+.display-flex {
+  display: flex;
+}

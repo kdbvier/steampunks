@@ -1,0 +1,51 @@
+.main-container {
+    display: flex;
+    justify-content: center;
+    height: calc(100% - 65px);
+    align-items: center;
+}
+
+.banner-image {
+    width: 40%;
+    flex-shrink: 0;
+}
+
+.steampunk-image {
+    width: 80%;
+    margin-top: 40px;
+}
+
+.price-container {
+    width: 50%;
+}
+
+.main-second-container {
+    margin-top: 50px;
+}
+
+.remain-font-size {
+    margin: 0px;
+    font-size: 30px;
+}
+
+.main-button-img {
+    width: 10%;
+    opacity: 0.3;
+}
+
+.main-button-container {
+    justify-content: center;
+    margin-top: 60px;
+}
+
+.main-mint-number {
+    width: 40%;
+    font-size: 65px;
+    margin: 0px;
+}
+
+.main-mint-button {
+    width: 20%;
+    margin-top: 30px;
+    cursor: pointer;
+}

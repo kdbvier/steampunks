@@ -1,0 +1,30 @@
+.header {
+    display: flex;
+    justify-content: center;
+}
+
+.header-button-container {
+    justify-content: space-between;
+    display: flex;
+    align-items: flex-end;
+}
+
+.header-img {
+    height: 30px;
+    cursor: pointer;
+}
+
+.mg-30 {
+    margin-top: 30px;
+}
+
+.mg-left {
+    margin-left: 50px;
+}
+
+.header-name {
+    margin: 0px;
+    font-size: 34px;
+    cursor: pointer;
+    color: #E8F1FA;
+}
