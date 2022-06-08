@@ -1,0 +1,97 @@
+.collections-container {
+    display: flex;
+    justify-content: center;
+    height: calc(100% - 65px);
+    background: url("../../assets/paper.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    align-items: center;
+    background-size: 90% 100%;
+}
+
+.collections-image {
+    width: 100%;
+}
+
+.collections-show-item-container {
+    flex-wrap: wrap;
+    flex-direction: row;
+    display: flex;
+    flex: 1;
+}
+
+.collections-font {
+    font-size: 1.3rem;
+}
+
+.collections-each-container {
+    width: 25%;
+    padding: 1rem;
+    cursor: pointer;
+}
+
+.collections-item-full-container {
+    width: 80%;
+    height: 60%;
+    margin-top: 5%;
+    overflow-y: scroll;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+
+.collections-item-full-container::-webkit-scrollbar {
+    display: none;
+}
+
+.modal-image {
+    width: 100%;
+}
+
+.modal-title {
+    width: 100%;
+    text-align: center;
+    font-family: "Watson";
+    color: lightyellow;
+}
+.modal-attribute {
+    width: 50%;
+    margin-top: 10px;
+}
+
+.modal-content {
+    background-image: url("../../assets/background.png");
+    width: 100%;
+    height: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.modal-attribute-font {
+    margin: 0px;
+    font-family: "Watson";
+}
+
+.attribute-title {
+    color: black;
+}
+
+.attribute-value {
+ color: lightyellow;
+}
+
+.download-icon {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    margin-top: -100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 40px;
+    background: rgba(0,0,0,0.5);
+    color: white;
+    cursor: pointer;
+}

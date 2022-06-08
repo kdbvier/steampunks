@@ -10,6 +10,7 @@ import { useAppDispatch, useAppSelector } from "./app/hooks";
 import { deleteAccount } from "./features/accounts/accountsSlice";
 
 import "react-toastify/dist/ReactToastify.css";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 setBasePath(
   "https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.0.0-beta.64/dist/"
