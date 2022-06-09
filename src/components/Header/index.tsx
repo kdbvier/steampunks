@@ -6,6 +6,7 @@ import { useKeplr } from "../../features/accounts/useKeplr";
 import website from "../../assets/website.png";
 import connectButton from "../../assets/connect.png";
 import mycollection from "../../assets/mycollection.png";
+import mainpage from "../../assets/mint-page.png";
 import "./Header.css";
 const Header: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -22,12 +23,26 @@ const Header: React.FC = () => {
   return (
     <div className="header">
       <div className="container header-button-container mg-30">
-        <Link to="/">
+        <a href="https://Secret-Steampunks.com">
           <img src={website} alt="website" className="header-img" />
-        </Link>
+        </a>
         <div className="header-button-container">
+          {/* {
+            account?.address === "juno1d6f4qyjay29qjtfnuchel0nzrff54qzds43mkz" && 
+            <Link to = "/admin" className="header-admin">Admin</Link>
+          } */}
+          <Link to="/admin">
+            <div className="header-admin">Admin</div>
+          </Link>
+          <Link to="/">
+            <img src={mainpage} alt="website" className="header-img mg-left" />
+          </Link>
           <Link to="/collections">
-            <img src={mycollection} alt="mycollecton" className="header-img" />
+            <img
+              src={mycollection}
+              alt="mycollecton"
+              className="header-img mg-left"
+            />
           </Link>
           <div onClick={clickWalletButton} className="mg-left">
             {account ? (

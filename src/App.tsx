@@ -2,15 +2,17 @@ import React, { useEffect } from "react";
 import "./App.css";
 import "@shoelace-style/shoelace/dist/themes/light.css";
 import { setBasePath } from "@shoelace-style/shoelace/dist/utilities/base-path";
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 import Header from "./components/Header";
 import Main from "./pages/Main";
 import Collctions from "./pages/Collections";
+import Admin from "./pages/Admin";
 import { useAppDispatch, useAppSelector } from "./app/hooks";
 import { deleteAccount } from "./features/accounts/accountsSlice";
 
 import "react-toastify/dist/ReactToastify.css";
-import 'bootstrap/dist/css/bootstrap.min.css';
+import "bootstrap/dist/css/bootstrap.min.css";
 
 setBasePath(
   "https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.0.0-beta.64/dist/"
@@ -38,8 +40,23 @@ function App() {
           <Route exact path="/collections">
             <Collctions />
           </Route>
+          <Route exact path="/admin">
+            <Admin />
+          </Route>
         </Switch>
       </BrowserRouter>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        hideProgressBar
+        newestOnTop
+        closeOnClick
+        theme="colored"
+      />
     </div>
   );
 }

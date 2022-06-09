@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { MsgExecuteContract } from "secretjs";
-// import { toast } from "react-toastify";
 import { useAppSelector } from "../../app/hooks";
 import { contractAddresses } from "../../hook/useContract";
+import { toast } from "react-toastify";
 import "./main.css";
 // import {queryNftInfo, queryStateInfo} from "../../util/secretHelpers";
 import bannerImg from "../../assets/Banner_shadow.png";
@@ -13,7 +12,7 @@ import mintPriceWl from "../../assets/mint-price-wl.png";
 import minusButton from "../../assets/Minus_shadow.png";
 import plusButton from "../../assets/Plus_shadow.png";
 import mintButton from "../../assets/Mint_Button.png";
-import { SecretNetworkClient } from "secretjs";
+import { SecretNetworkClient, MsgExecuteContract } from "secretjs";
 
 const Main: React.FC = () => {
   let wl = false;
@@ -37,7 +36,10 @@ const Main: React.FC = () => {
   // };
 
   const mint = async () => {
-    if (!window.keplr || !account) return;
+    if (!window.keplr || !account) {
+      toast.error("Connect your wallet");
+      return;
+    }
     await window.keplr.enable("pulsar-2");
 
     const queryJs: any = await SecretNetworkClient.create({
@@ -45,7 +47,59 @@ const Main: React.FC = () => {
       chainId: "pulsar-2",
     });
 
-    console.log(account);
+    let codeHash: any = await queryJs.query.compute.contractCodeHash(
+      contractAddresses.MINT_CONTRACT
+    );
+
+    let state: any = await queryJs.query.compute.queryContract({
+      contractAddress: contractAddresses.MINT_CONTRACT,
+      codeHash: codeHash,
+      query: {
+        get_state_info: {},
+      },
+    });
+
+    let white_members: any = await queryJs.query.compute.queryContract({
+      contractAddress: contractAddresses.MINT_CONTRACT,
+      codeHash: codeHash,
+      query: {
+        get_white_users: {},
+      },
+    });
+
+    if (state.private_mint) {
+      if (!white_members.includes(account.address)) {
+        toast.error("You are not whitelisted user");
+        return;
+      }
+
+      let user_info: any = await queryJs.query.compute.queryContract({
+        contractAddress: contractAddresses.MINT_CONTRACT,
+        codeHash: codeHash,
+        query: {
+          get_user_info: {
+            address: account.address,
+          },
+        },
+      });
+
+      if (user_info.length > state.maximum_count) {
+        toast.error("You exceed your limit");
+        return;
+      }
+    }
+
+    console.log(white_members);
+
+    if (Number(state.count) >= Number(state.total_supply)) {
+      toast.error("You can not mint any more");
+      return;
+    }
+
+    if (!state.private_mint && !state.public_mint) {
+      toast.error("Mint is not started yet");
+      return;
+    }
 
     const secretJs = await SecretNetworkClient.create({
       grpcWebUrl: "https://pulsar-2.api.trivium.network:9091",
@@ -57,39 +111,16 @@ const Main: React.FC = () => {
 
     console.log(secretJs);
 
-    let codeHash: any = await queryJs.query.compute.contractCodeHash(
-      contractAddresses.MINT_CONTRACT
-    );
-    let nftCodehash: any = await queryJs.query.compute.contractCodeHash(
-      contractAddresses.NFT_CONTRACT
-    );
-    let tokenCodeHash: any = await queryJs.query.compute.contractCodeHash(
-      contractAddresses.TOKEN_CONTRACT
-    );
+    let msg = {
+      find: "123",
+    };
 
     let send_msg = {
       send: {
         recipient: contractAddresses.MINT_CONTRACT,
         recipient_code_hash: codeHash,
-        amount: "600000",
-        msg: btoa(
-          JSON.stringify({
-            tokenId: String(mintValue),
-            name: "name",
-            description: "desc",
-            attributes: [
-              {
-                value: "value1",
-                trait_type: "12",
-                display_type: undefined,
-                max_value: undefined,
-              },
-            ],
-            image: "image",
-            protected_attributes: undefined,
-            code_hash: nftCodehash,
-          })
-        ),
+        amount: state.private_mint ? state.private_price : state.public_price,
+        msg: btoa(JSON.stringify(msg)),
         padding: undefined,
         memo: undefined,
       },
@@ -97,19 +128,20 @@ const Main: React.FC = () => {
     const mintMsg = new MsgExecuteContract({
       sender: account.address,
       contractAddress: contractAddresses.TOKEN_CONTRACT,
-      codeHash: tokenCodeHash,
+      codeHash: state.token_contract_hash,
       msg: send_msg,
       sentFunds: [],
     });
     try {
-      const tx = await secretJs.tx.broadcast([mintMsg], {
-        gasLimit: 5_000_000,
-      });
+      const tx = await secretJs.tx.broadcast([mintMsg], { gasLimit: 500_000 });
       console.log(tx);
+      toast.success("Success");
     } catch (err) {
       console.log("error: ", err);
+      toast.error("Failed");
     }
   };
+
   const fetchState = async () => {
     const queryJs: any = await SecretNetworkClient.create({
       grpcWebUrl: "https://pulsar-2.api.trivium.network:9091",
@@ -130,85 +162,6 @@ const Main: React.FC = () => {
     setMintValue(result.count);
     console.log(result);
   };
-
-  //   const fetchNftInfo = async () => {
-  //     // const queryJs :any = await SecretNetworkClient.create({
-  //     //   grpcWebUrl: 'https://pulsar-2.api.trivium.network:9091',
-  //     //   chainId: "pulsar-2",
-  //     // });
-
-  //     // let codeHash :any= await queryJs.query.compute.contractCodeHash(contractAddresses.MINT_CONTRACT);
-
-  //     // let result = await queryJs.query.compute.queryContract({
-  //     //   contractAddress:contractAddresses.MINT_CONTRACT,
-  //     //   codeHash:codeHash,
-  //     //   query:{
-  //     //     get_state_info:{}
-  //     //   }
-  //     //     });
-  //     //   con@sole.log(result)
-  //   if(!window.keplr ||!account)return
-  //     const permitName = "secretswap.io";
-  // const allowedTokens = [contractAddresses.NFT_CONTRACT];
-  // const permissions = ["balance" /* , "history", "allowance" */];
-
-  // const { signature } = await window.keplr.signAmino(
-  //   "pulsar-2",
-  //   account.address,
-  //   {
-  //     chain_id: "pulsar-2",
-  //     account_number: "0", // Must be 0
-  //     sequence: "0", // Must be 0
-  //     fee: {
-  //       amount: [{ denom: "uscrt", amount: "0" }], // Must be 0 uscrt
-  //       gas: "1", // Must be 1
-  //     },
-  //     msgs: [
-  //       {
-  //         type: "query_permit", // Must be "query_permit"
-  //         value: {
-  //           permit_name: permitName,
-  //           allowed_tokens: allowedTokens,
-  //           permissions: permissions,
-  //         },
-  //       },
-  //     ],
-  //     memo: "", // Must be empty
-  //   },
-  //   {
-  //     preferNoSetFee: true, // Fee must be 0, so hide it from the user
-  //     preferNoSetMemo: true, // Memo must be empty, so hide it from the user
-  //   }
-  // );
-
-  // const secretJs:any = await SecretNetworkClient.create({
-  //   grpcWebUrl: 'https://pulsar-2.api.trivium.network:9091',
-  //   chainId: 'pulsar-2',
-  //   wallet: window.keplr.getOfflineSignerOnlyAmino('pulsar-2'),
-  //   walletAddress: account?.address,
-  //   encryptionUtils: window.keplr.getEnigmaUtils('pulsar-2'),
-  // });
-
-  // const { balance } = await secretJs.queryContractSmart(
-  //   contractAddresses.NFT_CONTRACT,
-  //   {
-  //     with_permit: {
-  //       query: { all_nft_info: {token_id:"10"} },
-  //       permit: {
-  //         params: {
-  //           permit_name: permitName,
-  //           allowed_tokens: allowedTokens,
-  //           chain_id: "pulsar",
-  //           permissions: permissions,
-  //         },
-  //         signature: signature,
-  //       },
-  //     },
-  //   }
-  // // );
-
-  // console.log(balance.amount);
-  //   }
 
   useEffect(() => {
     // fetchState()

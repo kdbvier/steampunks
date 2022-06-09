@@ -28,3 +28,13 @@
     cursor: pointer;
     color: #E8F1FA;
 }
+
+.header-admin {
+    font-size: 34px;
+    color: #E8F1FA;
+    text-decoration: none;
+}
+
+.header-admin:hover {
+    color: black;
+}

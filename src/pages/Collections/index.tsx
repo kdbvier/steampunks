@@ -1,101 +1,102 @@
 import React, { useEffect, useState } from "react";
-import { Modal } from "react-bootstrap";
+import { SecretNetworkClient } from "secretjs";
+import { contractAddresses } from "../../hook/useContract";
+import { useAppSelector } from "../../app/hooks";
+// import { Modal } from "react-bootstrap";
 import "./collections.css";
-import { BsDownload } from "react-icons/bs";
+// import { BsDownload } from "react-icons/bs";
 
 const Collctions: React.FC = () => {
-  const list = [
-    "https://arweave.net/7C5LFI4eLv8r-3c95abDd4YiQJp9gG7uF1b8GqaZXgg",
-    "https://arweave.net/RRVfd1MEwcFeI9gQLUr34bThgKnKSvRF_b23vuVCMtg",
-    "https://arweave.net/vy43KUOlkL-8WBeT651Yf1kgClpffVWly4pBlD_KIKg",
-    "https://arweave.net/gPOtOXrMZTbwPZrnLLG1cVhsQ_75xMYFiqFuHtodIFo",
-    "https://arweave.net/wjqk3igaN7ygr6mLVkn1IrcExgivQUEPV8H2mJ4BRoE",
-    "https://arweave.net/yk6_ILmoPfs5kCUZZRhshmsswd-WqENyw3X1OJwbl98",
-    "https://arweave.net/oJnA8GvUsfkaZVh20XXNXLYp_suyk2IJIzDDkqfG9WE",
-    "https://arweave.net/2AM1_TAKQRbNbxP400eENVbD23PA54rer4qBRpTdSiU",
-    "https://arweave.net/8e7Se6Wdw7BAdLowi64nKdYofi9frOcVVp12HgjLKjw",
-    "https://arweave.net/GJe7AoO5CmIV9k4QJghagcI45_KkJKztufRgwzh7cvA",
-  ];
-  const [imageList, setImageList] = useState<string[]>([]);
-  const [nameList, setNameList] = useState<string[]>([]);
-  const [attributeList, setAttributeList] = useState<any[]>([]);
-  const [show, setShow] = useState(false);
-  const [selectNFT, setSelectNFT] = useState(0);
-  const [showDownloadIcon, setShowDownloadIcon] = useState({ display: "none" });
+  const account = useAppSelector((state) => state.accounts.keplrAccount);
+  const [nftData, setNftData] = useState<any>([]);
+  // const [nameList, setNameList] = useState<string[]>([]);
+  // const [attributeList, setAttributeList] = useState<any[]>([]);
+  // const [show, setShow] = useState(false);
+  // const [selectNFT, setSelectNFT] = useState(0);
+  // const [showDownloadIcon, setShowDownloadIcon] = useState({ display: "none" });
+  const fetchData = async () => {
+    if (!account) return;
+    const queryJs: any = await SecretNetworkClient.create({
+      grpcWebUrl: "https://pulsar-2.api.trivium.network:9091",
+      chainId: "pulsar-2",
+    });
 
+    let codeHash: any = await queryJs.query.compute.contractCodeHash(
+      contractAddresses.MINT_CONTRACT
+    );
+
+    let state = await queryJs.query.compute.queryContract({
+      contractAddress: contractAddresses.MINT_CONTRACT,
+      codeHash: codeHash,
+      query: {
+        get_state_info: {},
+      },
+    });
+
+    console.log(state);
+
+    let user_info: any = await queryJs.query.compute.queryContract({
+      contractAddress: contractAddresses.MINT_CONTRACT,
+      codeHash: codeHash,
+      query: {
+        get_user_info: {
+          address: account.address,
+        },
+      },
+    });
+    console.log(user_info);
+
+    let my_nfts: any = [];
+
+    await user_info?.forEach(async (element: any) => {
+      let nft_info: any = await queryJs.query.compute.queryContract({
+        contractAddress: contractAddresses.NFT_CONTRACT,
+        codeHash: state.nft_contract_hash,
+        query: {
+          nft_info: {
+            token_id: element,
+          },
+        },
+      });
+
+      my_nfts.push(nft_info);
+      setNftData(nft_info);
+    });
+
+    // setMintValue(result.count);
+  };
   useEffect(() => {
-    for (let i = 0; i < list.length; i++) getData(i);
+    fetchData();
     // eslint-disable-next-line
   }, []);
-
-  useEffect(() => {
-    console.log(imageList);
-    console.log(nameList);
-    console.log(attributeList);
-  }, [imageList, nameList, attributeList]);
-
-  const getData = (num: number) => {
-    console.log(num);
-    return fetch(list[num])
-      .then((response) => response.json())
-      .then((responseJson) => {
-        setImageList((imageList) => [...imageList, responseJson.image]);
-        setNameList((nameList) => [...nameList, responseJson.name]);
-        setAttributeList((attributeList) => [
-          ...attributeList,
-          responseJson.attributes,
-        ]);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  };
-
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-
-  const downloadImage = () => {
-    fetch(imageList[selectNFT], {
-      method: "GET",
-      headers: {},
-    })
-      .then((response) => {
-        response.arrayBuffer().then(function (buffer) {
-          const url = window.URL.createObjectURL(new Blob([buffer]));
-          const link = document.createElement("a");
-          link.href = url;
-          link.setAttribute("download", `${nameList[selectNFT]}.png`); //or any other extension
-          document.body.appendChild(link);
-          link.click();
-        });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
 
   return (
     <div className="collections-container">
       <div className="collections-item-full-container">
         <div className="collections-show-item-container">
-          {imageList.map((imgValue, index) => {
+          {nftData?.map((nft: any, index: number) => {
             return (
               <div
                 className="collections-each-container"
-                onClick={() => {
-                  console.log(attributeList[index]);
-                  setSelectNFT(index);
-                  handleShow();
-                }}
+                // onClick={() => {
+                //   console.log(attributeList[index]);
+                //   setSelectNFT(index);
+                //   handleShow();
+                // }}
+                key={index}
               >
-                <img className="collections-image" alt="img" src={imgValue} />
-                <p className="collections-font">{nameList[index]}</p>
+                <img
+                  className="collections-image"
+                  alt="img"
+                  src={nft.extension.image}
+                />
+                <p className="collections-font">{nft.extension.name}</p>
               </div>
             );
           })}
         </div>
       </div>
-      <Modal show={show} onHide={handleClose}>
+      {/* <Modal show={show} onHide={handleClose}>
         <Modal.Header>
           <Modal.Title>{nameList[selectNFT]}</Modal.Title>
         </Modal.Header>
@@ -144,7 +145,7 @@ const Collctions: React.FC = () => {
               })}
           </div>
         </Modal.Body>
-      </Modal>
+      </Modal> */}
     </div>
   );
 };
