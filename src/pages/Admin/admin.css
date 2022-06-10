@@ -1,0 +1,26 @@
+.sample-button {
+    width: 50%;
+    cursor: pointer;
+}
+
+.button-letter {
+    position: absolute;
+    width: 100%;
+    margin: 0px;
+    margin-top: -16%;
+}
+
+.admin-container {
+    display: flex;
+}
+
+.button-container {
+    position: relative;
+}
+
+.admin-full-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: calc(100% - 65px);
+}
