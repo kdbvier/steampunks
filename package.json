@@ -67,5 +67,8 @@
     "craco": "^0.0.3",
     "jest-styled-components": "^7.0.8",
     "webpack": "^5.68.0"
+  },
+  "overrides": {
+    "autoprefixer": "10.4.5"
   }
 }
