@@ -13,5 +13,5 @@ jobs:
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
-          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_STEAMPUNKS_E1783 }}'
-          projectId: steampunks-e1783
+          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_STEAM_AB264 }}'
+          projectId: steam-ab264
