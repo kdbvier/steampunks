@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { useAppSelector } from "../../app/hooks";
 import { contractAddresses } from "../../hook/useContract";
 import { toast } from "react-toastify";
@@ -9,15 +9,13 @@ import steampunkImg from "../../assets/steampunk-image.png";
 import collectionSize from "../../assets/collection-size-2100.png";
 import mintPriceNormal from "../../assets/mint-price-normal.png";
 import mintPriceWl from "../../assets/mint-price-wl.png";
-import minusButton from "../../assets/Minus_shadow.png";
-import plusButton from "../../assets/Plus_shadow.png";
+
 import mintButton from "../../assets/Mint_Button.png";
 import { SecretNetworkClient, MsgExecuteContract } from "secretjs";
 
 const Main: React.FC = () => {
   let wl = false;
   // const { runQuery, runExecute } = useContract();
-  const [mintValue, setMintValue] = useState(1);
   const account = useAppSelector((state) => state.accounts.keplrAccount);
   console.log("account: ", account);
   const mintContract = useAppSelector(
@@ -142,38 +140,6 @@ const Main: React.FC = () => {
     }
   };
 
-  const fetchState = async () => {
-    const queryJs: any = await SecretNetworkClient.create({
-      grpcWebUrl: "https://pulsar-2.api.trivium.network:9091",
-      chainId: "pulsar-2",
-    });
-
-    let codeHash: any = await queryJs.query.compute.contractCodeHash(
-      contractAddresses.MINT_CONTRACT
-    );
-
-    let result = await queryJs.query.compute.queryContract({
-      contractAddress: contractAddresses.MINT_CONTRACT,
-      codeHash: codeHash,
-      query: {
-        get_state_info: {},
-      },
-    });
-    setMintValue(result.count);
-    console.log(result);
-  };
-
-  useEffect(() => {
-    // fetchState()
-    setInterval(() => {
-      // if (account?.address !== owner)
-      fetchState();
-      // connect();
-    }, 3000);
-    //fetchNftInfo();
-    return clearInterval();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
   return (
     <div className="main-container">
       <div>
@@ -210,25 +176,7 @@ const Main: React.FC = () => {
                 )}
               </div>
             </div>
-            <div className="display-flex main-button-container">
-              <img
-                src={minusButton}
-                alt="collection"
-                className="main-button-img"
-                // onClick={() => minusMint()}
-              />
-              {account ? (
-                <p className="main-mint-number">{mintValue} Minted</p>
-              ) : (
-                <div className="main-mint-number"></div>
-              )}
-              <img
-                src={plusButton}
-                alt="collection"
-                className="main-button-img"
-                // onClick={() => plusMint()}
-              />
-            </div>
+
             <img
               src={mintButton}
               alt="mintButton"

@@ -66,7 +66,7 @@ const Collctions: React.FC = () => {
     //   // console.log("my_nfts: ",my_nfts)
     //   // cc
     // });
-    for (let i=0; i<user_info.length;i++){
+    for (let i = 0; i < user_info.length; i++) {
       let nft_info: any = await queryJs.query.compute.queryContract({
         contractAddress: contractAddresses.NFT_CONTRACT,
         codeHash: state.nft_contract_hash,
@@ -79,14 +79,14 @@ const Collctions: React.FC = () => {
       // return nft_info;
       my_nfts.push(nft_info);
     }
-    console.log('myNFTS: ',my_nfts)
+    console.log("myNFTS: ", my_nfts);
     setNftData(my_nfts);
   };
   useEffect(() => {
     fetchData();
     // eslint-disable-next-line
   }, []);
-  console.log('nft_info: ',nftData);
+  console.log("nft_info: ", nftData);
   return (
     <div className="collections-container">
       <div className="collections-item-full-container">
@@ -107,7 +107,9 @@ const Collctions: React.FC = () => {
                   alt="img"
                   src={nft.nft_info.extension.image}
                 />
-                <p className="collections-font">{nft.nft_info.extension.name}</p>
+                <p className="collections-font">
+                  {nft.nft_info.extension.name}
+                </p>
               </div>
             );
           })}
