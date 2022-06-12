@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useAppSelector } from "../../app/hooks";
 import { contractAddresses } from "../../hook/useContract";
 import { toast } from "react-toastify";
@@ -14,10 +14,9 @@ import mintButton from "../../assets/Mint_Button.png";
 import { SecretNetworkClient, MsgExecuteContract } from "secretjs";
 
 const Main: React.FC = () => {
-  let wl = false;
   // const { runQuery, runExecute } = useContract();
   const account = useAppSelector((state) => state.accounts.keplrAccount);
-  console.log("account: ", account);
+  const [sale, setSale] = useState(false);
   const mintContract = useAppSelector(
     (state) => state.accounts.accountList[contractAddresses.MINT_CONTRACT]
   );
@@ -139,6 +138,37 @@ const Main: React.FC = () => {
       toast.error("Failed");
     }
   };
+  const fetchState = async () => {
+    const queryJs: any = await SecretNetworkClient.create({
+      grpcWebUrl: "https://pulsar-2.api.trivium.network:9091",
+      chainId: "pulsar-2",
+    });
+
+    let codeHash: any = await queryJs.query.compute.contractCodeHash(
+      contractAddresses.MINT_CONTRACT
+    );
+
+    let result = await queryJs.query.compute.queryContract({
+      contractAddress: contractAddresses.MINT_CONTRACT,
+      codeHash: codeHash,
+      query: {
+        get_state_info: {},
+      },
+    });
+    setSale(result.private_mint);
+  };
+
+  useEffect(() => {
+    // fetchState()
+    setInterval(() => {
+      // if (account?.address !== owner)
+      fetchState();
+      // connect();
+    }, 3000);
+    //fetchNftInfo();
+    return clearInterval();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div className="main-container">
@@ -161,7 +191,7 @@ const Main: React.FC = () => {
                 {/* <p className="remain-font-size">2100</p> */}
               </div>
               <div>
-                {wl ? (
+                {sale ? (
                   <img
                     src={mintPriceNormal}
                     alt="collection"
