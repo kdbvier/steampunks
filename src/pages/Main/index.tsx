@@ -132,6 +132,10 @@ const Main: React.FC = () => {
     try {
       const tx = await secretJs.tx.broadcast([mintMsg], { gasLimit: 500_000 });
       console.log(tx);
+      if (tx.code !== 0) {
+        toast.error("fail");
+        return;
+      }
       toast.success("Success");
     } catch (err) {
       console.log("error: ", err);
@@ -191,7 +195,7 @@ const Main: React.FC = () => {
                 {/* <p className="remain-font-size">2100</p> */}
               </div>
               <div>
-                {sale ? (
+                {!sale ? (
                   <img
                     src={mintPriceNormal}
                     alt="collection"
