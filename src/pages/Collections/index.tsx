@@ -17,8 +17,8 @@ const Collctions: React.FC = () => {
   const fetchData = async () => {
     if (!account) return;
     const queryJs: any = await SecretNetworkClient.create({
-      grpcWebUrl: "https://pulsar-2.api.trivium.network:9091",
-      chainId: "pulsar-2",
+      grpcWebUrl: "https://secret-4.api.trivium.network:9091",
+      chainId: "secret-4",
     });
 
     let codeHash: any = await queryJs.query.compute.contractCodeHash(
