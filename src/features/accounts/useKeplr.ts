@@ -92,48 +92,47 @@ export function useKeplr(): {
     const coin = fromMicroDenom(coinMinimalDenom);
     const coinDenom = coin.toUpperCase();
     await keplr.experimentalSuggestChain({
-      chainId,
-      chainName,
-      rpc: rpcEndpoint,
-      rest: restEndpoint,
+      chainId: "pulsar-2",
+      chainName: "Secret Pulsar Testnet",
+      rpc: "https://pulsar-2.api.trivium.network:26657",
+      rest: "https://pulsar-2.api.trivium.network:1317",
       bip44: {
-        coinType: CosmosCoinType,
+          coinType: 529,
       },
       bech32Config: {
-        bech32PrefixAccAddr: addrPrefix,
-        bech32PrefixAccPub: `${addrPrefix}pub`,
-        bech32PrefixValAddr: `${addrPrefix}valoper`,
-        bech32PrefixValPub: `${addrPrefix}valoperpub`,
-        bech32PrefixConsAddr: `${addrPrefix}valcons`,
-        bech32PrefixConsPub: `${addrPrefix}valconspub`,
+          bech32PrefixAccAddr: "secret",
+          bech32PrefixAccPub: "secret" + "pub",
+          bech32PrefixValAddr: "secret" + "valoper",
+          bech32PrefixValPub: "secret" + "valoperpub",
+          bech32PrefixConsAddr: "secret" + "valcons",
+          bech32PrefixConsPub: "secret" + "valconspub",
       },
-      currencies: [
-        {
-          coinDenom,
-          coinMinimalDenom,
-          coinDecimals,
-        },
+      currencies: [ 
+          { 
+              coinDenom: "SCRT", 
+              coinMinimalDenom: "uscrt", 
+              coinDecimals: 6, 
+          }, 
       ],
       feeCurrencies: [
-        {
-          coinDenom,
-          coinMinimalDenom,
-          coinDecimals,
-          coinGeckoId,
-        },
+          {
+              coinDenom: "SCRT",
+              coinMinimalDenom: "uscrt",
+              coinDecimals: 6,
+          },
       ],
       stakeCurrency: {
-        coinDenom,
-        coinMinimalDenom,
-        coinDecimals,
-        coinGeckoId,
+          coinDenom: "SCRT",
+          coinMinimalDenom: "uscrt",
+          coinDecimals: 6,
       },
-      coinType: CosmosCoinType,
+      coinType: 529,
       gasPriceStep: {
-        low: gasPrice / 2,
-        average: gasPrice,
-        high: gasPrice * 2,
+          low: 0.1,
+          average: 0.25,
+          high: 0.3,
       },
+  
     });
   }, [config]);
 

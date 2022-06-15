@@ -1,11 +1,11 @@
 {
   "juno-mainnet": {
-    "chainName": "Secret Mainnet",
+    "chainName": "Secret Testnet",
     "chainId": "pulsar-2",
-    "rpcEndpoint": "https://pulsar-2.api.trivium.network:9091",
-    "restEndpoint": "https://lcd-juno.itastakers.com/",
+    "rpcEndpoint": "https://pulsar-2.api.trivium.network:26657",
+    "restEndpoint": "https://pulsar-2.api.trivium.network:1317",
     "faucetEndpoint": "",
-    "addressPrefix": "scrt",
+    "addressPrefix": "secret",
     "microDenom": "uscrt",
     "coinDecimals": "6",
     "gasPrice": "0.025"

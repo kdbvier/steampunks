@@ -9,16 +9,14 @@ import steampunkImg from "../../assets/steampunk-image.png";
 import collectionSize from "../../assets/collection-size-2100.png";
 import mintPriceNormal from "../../assets/mint-price-normal.png";
 import mintPriceWl from "../../assets/mint-price-wl.png";
-import minusButton from "../../assets/Minus_shadow.png";
-import plusButton from "../../assets/Plus_shadow.png";
+
 import mintButton from "../../assets/Mint_Button.png";
 import { SecretNetworkClient, MsgExecuteContract } from "secretjs";
 
 const Main: React.FC = () => {
-  let wl = false;
   // const { runQuery, runExecute } = useContract();
-  const [mintValue, setMintValue] = useState(1);
   const account = useAppSelector((state) => state.accounts.keplrAccount);
+  const [sale, setSale] = useState(false);
   const mintContract = useAppSelector(
     (state) => state.accounts.accountList[contractAddresses.MINT_CONTRACT]
   );
@@ -87,8 +85,6 @@ const Main: React.FC = () => {
       }
     }
 
-    console.log(white_members);
-
     if (Number(state.count) >= Number(state.total_supply)) {
       toast.error("You can not mint any more");
       return;
@@ -107,7 +103,6 @@ const Main: React.FC = () => {
       encryptionUtils: window.keplr.getEnigmaUtils("pulsar-2"),
     });
 
-    console.log(secretJs);
 
     let msg = {
       find: "123",
@@ -133,13 +128,16 @@ const Main: React.FC = () => {
     try {
       const tx = await secretJs.tx.broadcast([mintMsg], { gasLimit: 500_000 });
       console.log(tx);
+      if (tx.code !== 0) {
+        toast.error("fail");
+        return;
+      }
       toast.success("Success");
     } catch (err) {
       console.log("error: ", err);
       toast.error("Failed");
     }
   };
-
   const fetchState = async () => {
     const queryJs: any = await SecretNetworkClient.create({
       grpcWebUrl: "https://pulsar-2.api.trivium.network:9091",
@@ -157,7 +155,7 @@ const Main: React.FC = () => {
         get_state_info: {},
       },
     });
-    setMintValue(result.count);
+    setSale(result.private_mint);
   };
 
   useEffect(() => {
@@ -171,6 +169,7 @@ const Main: React.FC = () => {
     return clearInterval();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
   return (
     <div className="main-container">
       <div>
@@ -192,7 +191,7 @@ const Main: React.FC = () => {
                 {/* <p className="remain-font-size">2100</p> */}
               </div>
               <div>
-                {wl ? (
+                {!sale ? (
                   <img
                     src={mintPriceNormal}
                     alt="collection"
@@ -207,25 +206,7 @@ const Main: React.FC = () => {
                 )}
               </div>
             </div>
-            <div className="display-flex main-button-container">
-              <img
-                src={minusButton}
-                alt="collection"
-                className="main-button-img"
-                // onClick={() => minusMint()}
-              />
-              {account ? (
-                <p className="main-mint-number">{mintValue} Minted</p>
-              ) : (
-                <div className="main-mint-number"></div>
-              )}
-              <img
-                src={plusButton}
-                alt="collection"
-                className="main-button-img"
-                // onClick={() => plusMint()}
-              />
-            </div>
+
             <img
               src={mintButton}
               alt="mintButton"
