@@ -10,7 +10,8 @@ import "./admin.css";
 
 const Admin: React.FC = () => {
   const account = useAppSelector((state) => state.accounts.keplrAccount);
-  const [mintValue, setMintValue] = useState(1);
+  const [mintValue, setMintValue] = useState(0);
+  const [inputValue, setInputValue] = useState("");
   const changeMintOption = async (state: any) => {
     if (!window.keplr || !account) {
       toast.error("Connect your wallet");
@@ -76,7 +77,46 @@ const Admin: React.FC = () => {
     });
     setMintValue(result.count);
   };
+  // const handleChange = (e: any) => {
+  //   setInputValue(e.target.value);
+  // };
+  // const handleClick = async () => {
+  //   console.log("here: ", inputValue);
+  //   if (!window.keplr || !account) {
+  //     toast.error("Connect your wallet");
+  //     return;
+  //   }
+  //   const queryJs: any = await SecretNetworkClient.create({
+  //     grpcWebUrl: "https://secret-4.api.trivium.network:9091",
+  //     chainId: "secret-4",
+  //   });
 
+  //   let codeHash: any = await queryJs.query.compute.contractCodeHash(
+  //     contractAddresses.MINT_CONTRACT
+  //   );
+  //   const secretJs = await SecretNetworkClient.create({
+  //     grpcWebUrl: "https://secret-4.api.trivium.network:9091",
+  //     chainId: "secret-4",
+  //     wallet: window.keplr.getOfflineSignerOnlyAmino("secret-4"),
+  //     walletAddress: account?.address,
+  //     encryptionUtils: window.keplr.getEnigmaUtils("secret-4"),
+  //   });
+  //   let msg = {
+  //     add_white_user: {
+  //       member: inputValue,
+  //     },
+  //   };
+  //   let send_msg = {
+  //     send: {
+  //       recipient: contractAddresses.MINT_CONTRACT,
+  //       recipient_code_hash: codeHash,
+  //       amount: state.private_mint ? state.private_price : state.public_price,
+  //       msg: btoa(JSON.stringify(msg)),
+  //       padding: undefined,
+  //       memo: undefined,
+  //     },
+  //   };
+  // };
   useEffect(() => {
     // fetchState()
     setInterval(() => {
@@ -131,6 +171,16 @@ const Admin: React.FC = () => {
           // onClick={() => plusMint()}
         />
       </div>
+      {/* <div className="display-flex main-button-container">
+        <input
+          className="address-input"
+          onChange={handleChange}
+          value={inputValue}
+        />
+        <button className="add-user" onClick={handleClick}>
+          Add User
+        </button>
+      </div> */}
     </div>
   );
 };

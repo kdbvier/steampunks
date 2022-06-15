@@ -25,3 +25,20 @@
     height: calc(100% - 65px);
     margin: 100px;
 }
+
+.address-input {
+    height: 57px;
+    width: 360px;
+    font-size: 25px;
+    text-align: right;
+}
+
+.add-user {
+    margin: 0 10px;
+    width: 100px;
+    background: #BFC8DA;
+    border: black;
+}
+.add-user:hover {
+    border:inset; 
+}
