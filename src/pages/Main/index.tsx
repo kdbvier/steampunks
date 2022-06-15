@@ -19,11 +19,9 @@ const Main: React.FC = () => {
   // const { runQuery, runExecute } = useContract();
   const [mintValue, setMintValue] = useState(1);
   const account = useAppSelector((state) => state.accounts.keplrAccount);
-  console.log("account: ", account);
   const mintContract = useAppSelector(
     (state) => state.accounts.accountList[contractAddresses.MINT_CONTRACT]
   );
-  console.log("mintcontract: ", mintContract);
   // const nftContract = useAppSelector(
   //   (state) => state.accounts.accountList[contractAddresses.NFT_CONTRACT]
   // );
@@ -160,7 +158,6 @@ const Main: React.FC = () => {
       },
     });
     setMintValue(result.count);
-    console.log(result);
   };
 
   useEffect(() => {
