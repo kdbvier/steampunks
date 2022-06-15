@@ -1,7 +1,7 @@
 import { SecretNetworkClient } from 'secretjs';
 // import { Any } from 'secretjs/dist/protobuf_stuff/google/protobuf/any';
 const Storage = window.sessionStorage;
-export const ChainId: string = "pulsar-2";
+export const ChainId: string = "secret-4";
 //@ts-ignore
 export const Keplr:any = window.keplr;
 export let Querier: SecretNetworkClient;

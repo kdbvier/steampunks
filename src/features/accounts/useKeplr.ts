@@ -4,9 +4,9 @@ import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { AccountType, setKeplrAccount } from "../accounts/accountsSlice";
 import { Keplr } from "@keplr-wallet/types";
 import { pushMessage } from "../messages/messagesSlice";
-import { fromMicroDenom } from "../../util/coins";
+// import { fromMicroDenom } from "../../util/coins";
 
-const CosmosCoinType = 118;
+// const CosmosCoinType = 118;
 
 let savedKeplr: Keplr;
 
@@ -80,32 +80,32 @@ export function useKeplr(): {
   const suggestChain = useCallback(async (): Promise<void> => {
     const keplr = await getKeplr();
 
-    const coinMinimalDenom: string = config["microDenom"];
-    const coinDecimals = Number.parseInt(config["coinDecimals"]);
-    const coinGeckoId: string = config["coinGeckoId"];
-    const chainId: string = config["chainId"];
-    const chainName: string = config["chainName"];
-    const rpcEndpoint: string = config["rpcEndpoint"];
-    const restEndpoint: string = config["restEndpoint"];
-    const addrPrefix: string = config["addressPrefix"];
-    const gasPrice = Number.parseFloat(config["gasPrice"]);
-    const coin = fromMicroDenom(coinMinimalDenom);
-    const coinDenom = coin.toUpperCase();
+    // const coinMinimalDenom: string = config["microDenom"];
+    // const coinDecimals = Number.parseInt(config["coinDecimals"]);
+    // const coinGeckoId: string = config["coinGeckoId"];
+    // const chainId: string = config["chainId"];
+    // const chainName: string = config["chainName"];
+    // const rpcEndpoint: string = config["rpcEndpoint"];
+    // const restEndpoint: string = config["restEndpoint"];
+    // const addrPrefix: string = config["addressPrefix"];
+    // const gasPrice = Number.parseFloat(config["gasPrice"]);
+    // const coin = fromMicroDenom(coinMinimalDenom);
+    // const coinDenom = coin.toUpperCase();
     await keplr.experimentalSuggestChain({
-      chainId: "pulsar-2",
-      chainName: "Secret Pulsar Testnet",
-      rpc: "https://pulsar-2.api.trivium.network:26657",
-      rest: "https://pulsar-2.api.trivium.network:1317",
+      chainId: "secret-4",
+      chainName: "Secret Mainnet",
+      rpc: "https://secret-4.api.trivium.network:26657",
+      rest: "https://secret-4.api.trivium.network:1317",
       bip44: {
           coinType: 529,
       },
       bech32Config: {
           bech32PrefixAccAddr: "secret",
-          bech32PrefixAccPub: "secret" + "pub",
-          bech32PrefixValAddr: "secret" + "valoper",
-          bech32PrefixValPub: "secret" + "valoperpub",
-          bech32PrefixConsAddr: "secret" + "valcons",
-          bech32PrefixConsPub: "secret" + "valconspub",
+          bech32PrefixAccPub: "secretpub",
+          bech32PrefixValAddr: "secretvaloper",
+          bech32PrefixValPub: "secretvaloperpub",
+          bech32PrefixConsAddr: "secretvalcons",
+          bech32PrefixConsPub: "secretvalconspub",
       },
       currencies: [ 
           { 
@@ -134,7 +134,7 @@ export function useKeplr(): {
       },
   
     });
-  }, [config]);
+  }, []);
 
   const connect = useCallback(async (): Promise<void> => {
     try {

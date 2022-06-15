@@ -17,9 +17,6 @@ const Main: React.FC = () => {
   // const { runQuery, runExecute } = useContract();
   const account = useAppSelector((state) => state.accounts.keplrAccount);
   const [sale, setSale] = useState(false);
-  const mintContract = useAppSelector(
-    (state) => state.accounts.accountList[contractAddresses.MINT_CONTRACT]
-  );
   // const nftContract = useAppSelector(
   //   (state) => state.accounts.accountList[contractAddresses.NFT_CONTRACT]
   // );
@@ -36,11 +33,11 @@ const Main: React.FC = () => {
       toast.error("Connect your wallet");
       return;
     }
-    await window.keplr.enable("pulsar-2");
+    await window.keplr.enable("secret-4");
 
     const queryJs: any = await SecretNetworkClient.create({
-      grpcWebUrl: "https://pulsar-2.api.trivium.network:9091",
-      chainId: "pulsar-2",
+      grpcWebUrl: "https://secret-4.api.trivium.network:9091",
+      chainId: "secret-4",
     });
 
     let codeHash: any = await queryJs.query.compute.contractCodeHash(
@@ -96,13 +93,12 @@ const Main: React.FC = () => {
     }
 
     const secretJs = await SecretNetworkClient.create({
-      grpcWebUrl: "https://pulsar-2.api.trivium.network:9091",
-      chainId: "pulsar-2",
-      wallet: window.keplr.getOfflineSignerOnlyAmino("pulsar-2"),
+      grpcWebUrl: "https://secret-4.api.trivium.network:9091",
+      chainId: "secret-4",
+      wallet: window.keplr.getOfflineSignerOnlyAmino("secret-4"),
       walletAddress: account?.address,
-      encryptionUtils: window.keplr.getEnigmaUtils("pulsar-2"),
+      encryptionUtils: window.keplr.getEnigmaUtils("secret-4"),
     });
-
 
     let msg = {
       find: "123",
@@ -140,8 +136,8 @@ const Main: React.FC = () => {
   };
   const fetchState = async () => {
     const queryJs: any = await SecretNetworkClient.create({
-      grpcWebUrl: "https://pulsar-2.api.trivium.network:9091",
-      chainId: "pulsar-2",
+      grpcWebUrl: "https://secret-4.api.trivium.network:9091",
+      chainId: "secret-4",
     });
 
     let codeHash: any = await queryJs.query.compute.contractCodeHash(

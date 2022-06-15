@@ -1,9 +1,9 @@
 {
   "juno-mainnet": {
-    "chainName": "Secret Testnet",
-    "chainId": "pulsar-2",
-    "rpcEndpoint": "https://pulsar-2.api.trivium.network:26657",
-    "restEndpoint": "https://pulsar-2.api.trivium.network:1317",
+    "chainName": "Secret Mainnet",
+    "chainId": "secret-4",
+    "rpcEndpoint": "https://secret-4.api.trivium.network:26657",
+    "restEndpoint": "https://secret-4.api.trivium.network:1317",
     "faucetEndpoint": "",
     "addressPrefix": "secret",
     "microDenom": "uscrt",

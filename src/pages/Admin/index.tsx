@@ -17,8 +17,8 @@ const Admin: React.FC = () => {
       return;
     }
     const queryJs: any = await SecretNetworkClient.create({
-      grpcWebUrl: "https://pulsar-2.api.trivium.network:9091",
-      chainId: "pulsar-2",
+      grpcWebUrl: "https://secret-4.api.trivium.network:9091",
+      chainId: "secret-4",
     });
 
     let codeHash: any = await queryJs.query.compute.contractCodeHash(
@@ -32,11 +32,11 @@ const Admin: React.FC = () => {
     };
 
     const secretJs = await SecretNetworkClient.create({
-      grpcWebUrl: "https://pulsar-2.api.trivium.network:9091",
-      chainId: "pulsar-2",
-      wallet: window.keplr.getOfflineSignerOnlyAmino("pulsar-2"),
+      grpcWebUrl: "https://secret-4.api.trivium.network:9091",
+      chainId: "secret-4",
+      wallet: window.keplr.getOfflineSignerOnlyAmino("secret-4"),
       walletAddress: account?.address,
-      encryptionUtils: window.keplr.getEnigmaUtils("pulsar-2"),
+      encryptionUtils: window.keplr.getEnigmaUtils("secret-4"),
     });
 
     const mintMsg = new MsgExecuteContract({
@@ -59,8 +59,8 @@ const Admin: React.FC = () => {
   };
   const fetchState = async () => {
     const queryJs: any = await SecretNetworkClient.create({
-      grpcWebUrl: "https://pulsar-2.api.trivium.network:9091",
-      chainId: "pulsar-2",
+      grpcWebUrl: "https://secret-4.api.trivium.network:9091",
+      chainId: "secret-4",
     });
 
     let codeHash: any = await queryJs.query.compute.contractCodeHash(
