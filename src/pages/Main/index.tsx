@@ -122,7 +122,7 @@ const Main: React.FC = () => {
       sentFunds: [],
     });
     try {
-      const tx = await secretJs.tx.broadcast([mintMsg], { gasLimit: 500_000 });
+      const tx = await secretJs.tx.broadcast([mintMsg], { gasLimit: 1000_000 });
       console.log(tx);
       if (tx.code !== 0) {
         toast.error("fail");

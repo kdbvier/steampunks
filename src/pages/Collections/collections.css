@@ -22,11 +22,12 @@
 }
 
 .collections-font {
-    font-size: 1.3rem;
+    font-size: 1.8rem;
+    color: black;
 }
 
 .collections-each-container {
-    width: 25%;
+    width: 40%;
     padding: 1rem;
     cursor: pointer;
 }

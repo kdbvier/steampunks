@@ -33,7 +33,6 @@ const Collctions: React.FC = () => {
       },
     });
 
-
     let user_info: any = await queryJs.query.compute.queryContract({
       contractAddress: contractAddresses.MINT_CONTRACT,
       codeHash: codeHash,
@@ -73,9 +72,28 @@ const Collctions: React.FC = () => {
         },
       });
       // return nft_info;
-      my_nfts.push({...nft_info, id: user_info[i]});
+      my_nfts.push({ ...nft_info, id: user_info[i] });
     }
     setNftData(my_nfts);
+  };
+  const downloadImage = (nft: any) => {
+    fetch(`https://${nft?.nft_info.extension.image}`, {
+      method: "GET",
+      headers: {},
+    })
+      .then((response) => {
+        response.arrayBuffer().then(function (buffer) {
+          const url = window.URL.createObjectURL(new Blob([buffer]));
+          const link = document.createElement("a");
+          link.href = url;
+          link.setAttribute("download", `${nft?.id}.png`); //or any other extension
+          document.body.appendChild(link);
+          link.click();
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
   useEffect(() => {
     fetchData();
@@ -89,75 +107,22 @@ const Collctions: React.FC = () => {
             return (
               <div
                 className="collections-each-container"
-                // onClick={() => {
-                //   setSelectNFT(index);
-                //   handleShow();
-                // }}
-                key={index}
+                onClick={() => {
+                  downloadImage(nft);
+                }}
+                key={nft.id}
               >
                 <img
                   className="collections-image"
                   alt="img"
                   src={`https://${nft.nft_info.extension.image}`}
                 />
-                <p className="collections-font">
-                  {nft.id}
-                </p>
+                <p className="collections-font">{nft.id}</p>
               </div>
             );
           })}
         </div>
       </div>
-      {/* <Modal show={show} onHide={handleClose}>
-        <Modal.Header>
-          <Modal.Title>{nameList[selectNFT]}</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <div
-            style={{ position: "relative" }}
-            onMouseEnter={(e) => {
-              setShowDownloadIcon({ display: "flex" });
-            }}
-            onMouseLeave={(e) => {
-              setShowDownloadIcon({ display: "none" });
-            }}
-            onClick={() => downloadImage()}
-          >
-            <img className="modal-image" alt="img" src={imageList[selectNFT]} />
-            <div style={showDownloadIcon} className="download-icon">
-              <BsDownload />{" "}
-              <p
-                style={{
-                  fontSize: "20px",
-                  marginLeft: "20px",
-                  marginBottom: "0px",
-                }}
-              >
-                Download Image
-              </p>
-            </div>
-          </div>
-          <div className="collections-show-item-container">
-            {attributeList.length !== 0 &&
-              attributeList[selectNFT].map((attribute: any, index: any) => {
-                return (
-                  <div className="modal-attribute">
-                    <p className="modal-attribute-font">
-                      <span className="attribute-title">Trait Type : </span>
-                      <span className="attribute-value">
-                        {attribute.trait_type}
-                      </span>
-                    </p>
-                    <p className="modal-attribute-font">
-                      <span className="attribute-title">Value : </span>
-                      <span className="attribute-value">{attribute.value}</span>
-                    </p>
-                  </div>
-                );
-              })}
-          </div>
-        </Modal.Body>
-      </Modal> */}
     </div>
   );
 };
