@@ -5,10 +5,6 @@ import { contractAddresses } from "../../hook/useContract";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { setKeplrAccount } from "../../features/accounts/accountsSlice";
 import { useKeplr } from "../../features/accounts/useKeplr";
-import website from "../../assets/website.png";
-import connectButton from "../../assets/connect.png";
-import mycollection from "../../assets/mycollection.png";
-import mainpage from "../../assets/mint-page.png";
 import "./Header.css";
 const Header: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -57,7 +53,7 @@ const Header: React.FC = () => {
     <div className="header">
       <div className="container header-button-container mg-30">
         <a href="https://Secret-Steampunks.com">
-          <img src={website} alt="website" className="header-img" />
+          <img src="/assets/website.png" alt="website" className="header-img" />
         </a>
         <div className="header-button-container">
           {account?.address === owner && (
@@ -69,11 +65,15 @@ const Header: React.FC = () => {
             <div className="header-admin">Admin</div>
           </Link> */}
           <Link to="/">
-            <img src={mainpage} alt="website" className="header-img mg-left" />
+            <img
+              src="/assets/mint-page.png"
+              alt="website"
+              className="header-img mg-left"
+            />
           </Link>
           <Link to="/collections">
             <img
-              src={mycollection}
+              src="/assets/mycollection.png"
               alt="mycollecton"
               className="header-img mg-left"
             />
@@ -85,7 +85,11 @@ const Header: React.FC = () => {
               </>
             ) : (
               <>
-                <img src={connectButton} alt="connect" className="header-img" />
+                <img
+                  src="/assets/connect.png"
+                  alt="connect"
+                  className="header-img"
+                />
               </>
             )}
           </div>

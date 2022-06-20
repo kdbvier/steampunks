@@ -4,13 +4,7 @@ import { contractAddresses } from "../../hook/useContract";
 import { toast } from "react-toastify";
 import "./main.css";
 // import {queryNftInfo, queryStateInfo} from "../../util/secretHelpers";
-import bannerImg from "../../assets/Banner_shadow.png";
-import steampunkImg from "../../assets/steampunk-image.png";
-import collectionSize from "../../assets/collection-size-2100.png";
-import mintPriceNormal from "../../assets/mint-price-normal.png";
-import mintPriceWl from "../../assets/mint-price-wl.png";
 
-import mintButton from "../../assets/Mint_Button.png";
 import { SecretNetworkClient, MsgExecuteContract } from "secretjs";
 
 const Main: React.FC = () => {
@@ -122,7 +116,7 @@ const Main: React.FC = () => {
       sentFunds: [],
     });
     try {
-      const tx = await secretJs.tx.broadcast([mintMsg], { gasLimit: 1000_000 });
+      const tx = await secretJs.tx.broadcast([mintMsg], { gasLimit: 2000_000 });
       console.log(tx);
       if (tx.code !== 0) {
         toast.error("fail");
@@ -170,17 +164,21 @@ const Main: React.FC = () => {
     <div className="main-container">
       <div>
         <div className="container display-flex">
-          <img src={bannerImg} alt="banner" className="banner-image" />
+          <img
+            src="/assets/Banner_shadow.png"
+            alt="banner"
+            className="banner-image"
+          />
           <div>
             <img
-              src={steampunkImg}
+              src="/assets/steampunk-image.png"
               alt="steampunk"
               className="steampunk-image"
             />
             <div className="display-flex main-second-container">
               <div>
                 <img
-                  src={collectionSize}
+                  src="/assets/collection-size-2100.png"
                   alt="collection"
                   className="price-container"
                 />
@@ -189,13 +187,13 @@ const Main: React.FC = () => {
               <div>
                 {!sale ? (
                   <img
-                    src={mintPriceNormal}
+                    src="/assets/mint-price-normal.png"
                     alt="collection"
                     className="price-container"
                   />
                 ) : (
                   <img
-                    src={mintPriceWl}
+                    src="/assets/mint-price-wl.png"
                     alt="collection"
                     className="price-container"
                   />
@@ -204,7 +202,7 @@ const Main: React.FC = () => {
             </div>
 
             <img
-              src={mintButton}
+              src="/assets/Mint_Button.png"
               alt="mintButton"
               className="main-mint-button"
               onClick={() => mint()}

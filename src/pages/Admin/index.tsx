@@ -1,17 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { SecretNetworkClient, MsgExecuteContract } from "secretjs";
 import { toast } from "react-toastify";
-import minusButton from "../../assets/Minus_shadow.png";
-import plusButton from "../../assets/Plus_shadow.png";
 import { contractAddresses } from "../../hook/useContract";
 import { useAppSelector } from "../../app/hooks";
-import sampleButton from "../../assets/sample-button.png";
 import "./admin.css";
 
 const Admin: React.FC = () => {
   const account = useAppSelector((state) => state.accounts.keplrAccount);
   const [mintValue, setMintValue] = useState(0);
-  const [inputValue, setInputValue] = useState("");
+  // const [inputValue, setInputValue] = useState("");
   const changeMintOption = async (state: any) => {
     if (!window.keplr || !account) {
       toast.error("Connect your wallet");
@@ -139,22 +136,34 @@ const Admin: React.FC = () => {
       <div className="admin-full-container">
         <div className="admin-container">
           <div className="button-container" onClick={() => changeMintOption(1)}>
-            <img src={sampleButton} className="sample-button" alt="img" />
+            <img
+              src="/assets/sample-button.png"
+              className="sample-button"
+              alt="img"
+            />
             <p className="button-letter">Presale</p>
           </div>
           <div className="button-container" onClick={() => changeMintOption(2)}>
-            <img src={sampleButton} className="sample-button" alt="img" />
+            <img
+              src="/assets/sample-button.png"
+              className="sample-button"
+              alt="img"
+            />
             <p className="button-letter">Public Sale</p>
           </div>
           <div className="button-container" onClick={() => changeMintOption(3)}>
-            <img src={sampleButton} className="sample-button" alt="img" />
+            <img
+              src="/assets/sample-button.png"
+              className="sample-button"
+              alt="img"
+            />
             <p className="button-letter">Stop Sale</p>
           </div>
         </div>
       </div>
       <div className="display-flex main-button-container">
         <img
-          src={minusButton}
+          src="/assets/Minus_shadow.png"
           alt="collection"
           className="main-button-img"
           // onClick={() => minusMint()}
@@ -165,7 +174,7 @@ const Admin: React.FC = () => {
           <div className="main-mint-number"></div>
         )}
         <img
-          src={plusButton}
+          src="/assets/Plus_shadow.png"
           alt="collection"
           className="main-button-img"
           // onClick={() => plusMint()}
