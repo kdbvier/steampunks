@@ -11,16 +11,6 @@ const Main: React.FC = () => {
   // const { runQuery, runExecute } = useContract();
   const account = useAppSelector((state) => state.accounts.keplrAccount);
   const [sale, setSale] = useState(false);
-  // const nftContract = useAppSelector(
-  //   (state) => state.accounts.accountList[contractAddresses.NFT_CONTRACT]
-  // );
-  // const minusMint = () => {
-  //   if (mintValue > 0 && account) setMintValue(mintValue - 1);
-  // };
-
-  // const plusMint = () => {
-  //   if (mintValue < 2100 && account) setMintValue(mintValue + 1);
-  // };
 
   const mint = async () => {
     if (!window.keplr || !account) {
