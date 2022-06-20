@@ -87,7 +87,6 @@ function App() {
           </Switch>
         </BrowserRouter>
       )}
-
       <ToastContainer
         position="top-right"
         autoClose={5000}
